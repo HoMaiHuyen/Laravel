@@ -1,7 +1,7 @@
 <?php
-
 use Illuminate\Support\Facades\Route;
-use App\Models\User;
+use App\Models\Use;
+
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -13,10 +13,7 @@ use App\Models\User;
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
-});
-
-Route::get('unicode', function () {
-     return view('home');
+Route::get('/', function(){
+    $html = '<h1>Hoc Lap Trinh</h1>';
+    return $html;
 });
