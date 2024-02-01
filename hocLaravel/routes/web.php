@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -54,22 +55,33 @@ use Illuminate\Http\Request;
 // Route::redirect('unicode', 'show_form',404);
 
 // Route::view('show_form', 'form');
-Route::prefix('admin')->group(function(){
-    Route::get('unicode', function () {
-        return 'Phuong thuc get cua path /unicode';
-    });
+Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
+Route::get('/tin-tuc', 'HomeController@getNews')->name('news');
+Route::get('/Categories/{id}', [HomeController::class, 'getCategories']);
+
+
+
+Route::prefix('admin')->group(function () {
+    Route::get('tin-tuc/{id?}/{slug?}.html', function ($id = null, $slug = null) {
+        $content = 'Phuong thuc get cua path /unicode voi tham so:';
+        $content .= 'id=' . $id . '</br>';
+        $content .= 'slug=' . $slug . '</br>';
+        return $content;
+    })->where('id', '\d+')->where('slug', '.+')->name('admin.tintuc');
 
     Route::get('show_form', function () {
         return view('form');
-    });
-    Route::prefix('products')->group(function(){
-        Route::get('/', function(){
+    })->name('admin.show_form');
+
+    Route::prefix('products')->middleware('checkpermssion')->group(function () {
+        Route::get('/', function () {
             return 'Danh sach san pham';
         });
 
-        Route::get('add', function(){
+        Route::get('add', function () {
             return 'them san pham';
-        });
+        })->name('admin.products.add');
+
         Route::get('edit', function () {
             return 'sua san pham';
         });
@@ -78,4 +90,3 @@ Route::prefix('admin')->group(function(){
         });
     });
 });
- 
