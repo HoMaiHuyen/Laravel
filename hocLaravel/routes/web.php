@@ -5,6 +5,7 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\DashboardController;
+use App\Http\Controllers\HomeController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -17,9 +18,7 @@ use App\Http\Controllers\Admin\DashboardController;
 */
 
 // client Routes
-Route::get('/', function(){
-    return '<h1 style="text-align: center;">UNICODE HOME PAGE</h1>';
-})->name('home');
+Route::get('/', [HomeController::class, 'index'])->name('home');
 Route::prefix('categories')->group(function () {
     //Danh sách chuyên mục
     Route::get('/', [CategoriesController::class, 'index'])->name('categories.list');
@@ -39,6 +38,8 @@ Route::prefix('categories')->group(function () {
     //Xóa chuyên mục
     Route::delete('/delete/{id}', [CategoriesController::class, 'deleteCategory'])->name('categories.delete');
 });
+
+Route::get('product/{id}', [HomeController::class, 'getProductDetail' ]);
 
 // Admin route
 Route::middleware('auth.admin')->prefix('admin')->group(function(){
