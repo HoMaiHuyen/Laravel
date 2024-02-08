@@ -2,7 +2,8 @@
 
 use Illuminate\Support\Facades\Route;
 use Illuminate\Http\Request;
-use App\Http\Controllers\HomeController;
+use App\Http\Controllers\CategoriesController;
+use App\Http\Controllers\Admin\ProductsController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -14,79 +15,29 @@ use App\Http\Controllers\HomeController;
 |
 */
 
-// Route::get('/', function () {
-//     $html = '<h1>Hoc Lap Trinh</h1>';
-//     return $html;
-// });
-// Route::get('unicode', function () {
-//     return view('form');
-// });
-// Route::get('unicode', function () {
-//     return 'Phuong thuc get cua path /unicode';
-// });
+// client Routes
 
-// Route::post('/unicode', function () {
-//     return 'Phuong thuc Post cua path /unicode';
-// });
+Route::prefix('categories')->group(function () {
+    //Danh sách chuyên mục
+    Route::get('/', [CategoriesController::class, 'index'])->name('categories.list');
 
-// Route::put('unicode', function(){
-//     return "Phuong thuc Put cua path /unicode";
-// });
+    //Lấy chi tiết 1 chuyên mục (Áp dụng show form của chuyên mục)
+    Route::get('/edit/{id}', [CategoriesController::class, 'getCategory'])->name('categories.edit');
 
-// Route::delete('unicode', function () {
-//     return "Phuong thuc Delete cua path /unicode";
-// });
+    //Xử lí update chuyên mục
+    Route::post('/edit{id}', [CategoriesController::class, 'updategetCategory']);
 
-// Route::patch('unicode', function () {
-//     return "Phuong thuc Patch cua path /unicode";
-// });
+    //Hiển thị form add dữ liệu
+    Route::get('/add', [CategoriesController::class, 'addCategory'])->name('categories.add');
 
-// Route::match(['get', 'post'], 'unicode', function(){
-//     return $_SERVER['REQUEST_METHOD'];
-// });
+    //Xử lí thêm chuyên mục
+    Route::post('/add', [CategoriesController::class, 'handleAddCategory']);
 
-// Route::any('unicode', function(Request $request){
-//     return $request->method();
-// });
-// Route::get('show_form', function(){
-//     return view('form');
-// });
+    //Xóa chuyên mục
+    Route::delete('/delete/{id}', [CategoriesController::class, 'deleteCategory'])->name('categories.delete');
+});
 
-// Route::redirect('unicode', 'show_form',404);
-
-// Route::view('show_form', 'form');
-Route::get('/', 'App\Http\Controllers\HomeController@index')->name('home');
-Route::get('/tin-tuc', 'HomeController@getNews')->name('news');
-Route::get('/Categories/{id}', [HomeController::class, 'getCategories']);
-
-
-
-Route::prefix('admin')->group(function () {
-    Route::get('tin-tuc/{id?}/{slug?}.html', function ($id = null, $slug = null) {
-        $content = 'Phuong thuc get cua path /unicode voi tham so:';
-        $content .= 'id=' . $id . '</br>';
-        $content .= 'slug=' . $slug . '</br>';
-        return $content;
-    })->where('id', '\d+')->where('slug', '.+')->name('admin.tintuc');
-
-    Route::get('show_form', function () {
-        return view('form');
-    })->name('admin.show_form');
-
-    Route::prefix('products')->middleware('checkpermssion')->group(function () {
-        Route::get('/', function () {
-            return 'Danh sach san pham';
-        });
-
-        Route::get('add', function () {
-            return 'them san pham';
-        })->name('admin.products.add');
-
-        Route::get('edit', function () {
-            return 'sua san pham';
-        });
-        Route::get('delete', function () {
-            return 'xoa san pham';
-        });
-    });
+// Admin route
+Route::prefix('admin')->group(function(){
+        Route::resource('products', ProductsController::class);
 });
