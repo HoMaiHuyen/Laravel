@@ -1,2 +1,25 @@
-<h1 style="text-align: center;"> Hoc lap trinh laravel</h1>
-<a href="<?php echo route('admin.tintuc', ['id'=>1, 'slug'=>'tin-tuc-the-gioi']);?>">Watch news</a>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unicode-Study basic web</title>
+</head>
+
+<body>
+    <header>
+        <h1>HEADER-UNICODE</h1>
+        <h2>{{ $title}}</h2>
+    </header>
+    <main>
+        <h1>CONTENTS-UNICODE</h1>
+        <h2><?php echo $content ?></h2>
+
+    </main>
+    <header>
+        <h1>FOOTER-UNICODE</h1>
+    </header>
+</body>
+
+</html>
