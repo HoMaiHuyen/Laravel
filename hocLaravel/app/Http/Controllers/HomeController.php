@@ -49,6 +49,8 @@ class HomeController extends Controller
         $this->data['dataArr'] = [];
 
         $this->data['number'] = 3;
+
+        $this->data['message'] = 'Order successful';
         return view('home', $this->data);
     }
 }
