@@ -13,15 +13,24 @@ class CheckLoginAdmin
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        // echo 'Middileware request';
-        if(!$this->isLogin()){
-            return redirect(route('home'));
-        }
         return $next($request);
     }
-    public function isLogin(){
-        return false;
-    }
+    // {
+    //     // // echo 'Middileware request';
+
+        // if (!$this->isLogin()) {
+        //     // return redirect(route('home'));
+        // }
+    //     // if ($request->is('admin')) {
+    //     //     echo '<h3>Khu vực quản trị</h3>';
+    //     // }
+    //     // // return $next($request);
+    //     return 1;
+    // }
+    // public function isLogin()
+    // {
+    //     // return false;
+    // }
 }
