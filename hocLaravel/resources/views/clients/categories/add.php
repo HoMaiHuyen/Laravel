@@ -1,7 +1,7 @@
 <h1>Thêm chuyên mục</h1>
 <form method="POST" action="<?php echo route('categories.add'); ?>">
     <div>
-        <input type="text" name="category_name" placeholder="Tên chuyên mục">
+        <input type="text" name="category_name" placeholder="Tên chuyên mục" value="<?php echo $cateName ?>">
     </div>
     <?php echo csrf_field() ?>
     <!-- <input type="hidden" name=" _token" value="<?php echo csrf_token(); ?>"> -->

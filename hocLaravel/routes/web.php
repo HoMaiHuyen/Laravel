@@ -37,12 +37,18 @@ Route::middleware('auth.admin')->prefix('categories')->group(function () {
 
     //Xóa chuyên mục
     Route::delete('/delete/{id}', [CategoriesController::class, 'deleteCategory'])->name('categories.delete');
+
+    // Hiển thị form upload
+    Route::get('/upload', [CategoriesController::class, 'getfile']);
+
+    //Xử lí file
+    Route::post('/upload', [CategoriesController::class, 'handlefile'])->name('categories.upload');
 });
 
-Route::get('product/{id}', [HomeController::class, 'getProductDetail' ]);
+Route::get('product/{id}', [HomeController::class, 'getProductDetail']);
 
 // Admin route
-Route::middleware('auth.admin')->prefix('admin')->group(function(){
+Route::middleware('auth.admin')->prefix('admin')->group(function () {
     Route::get('/', [DashboardController::class, 'index']);
-        Route::resource('products', ProductsController::class)->middleware('auth.admin.product');
+    Route::resource('products', ProductsController::class)->middleware('auth.admin.product');
 });
