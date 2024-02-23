@@ -13,9 +13,9 @@ class AuthApi
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next): Response
+    public function handle(Request $request, Closure $next)
     {
-        echo 'Request API';
-        return $next($request);
+        // echo 'Request API';
+        // return $next($request);
     }
 }

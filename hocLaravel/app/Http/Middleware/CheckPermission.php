@@ -13,10 +13,10 @@ class CheckPermission
      *
      * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
      */
-    public function handle(Request $request, Closure $next)
-    {
-        return $next($request);
-        // $homeurl = route('home');
-        // return redirect($homeurl);
-    }
+    // public function handle(Request $request, Closure $next)
+    // {
+    //     // return $next($request);
+    //     // $homeurl = route('home');
+    //     // return redirect($homeurl);
+    // }
 }

@@ -18,8 +18,8 @@ use App\Http\Controllers\HomeController;
 */
 
 // client Routes
-Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::prefix('categories')->group(function () {
+Route::get('/', [HomeController::class, 'index'])->name('home')->middleware('auth.admin');
+Route::middleware('auth.admin')->prefix('categories')->group(function () {
     //Danh sách chuyên mục
     Route::get('/', [CategoriesController::class, 'index'])->name('categories.list');
 
