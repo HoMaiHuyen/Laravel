@@ -1,25 +1,28 @@
-<!DOCTYPE html>
-<html lang="en">
+<h1>Unicode Home Page</h1>
+<h2>{{!empty(request()->keyword)?request()->keyword:'No problem'}}</h2>
+<div class="container">
+    {!! !empty($content)?$content:false !!};
+</div>
+<hr>
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Unicode-Study basic web</title>
-</head>
+<!-- @switch($number)
+    @case(1)
+    @case(3)
+    @case(5)
+        <p>number 1</p>
+        @break
+    @case(2)
+        <p>number 2</p>
+        @break
+    @default
+        <p>The other number</p>
+@endswitch -->
 
-<body>
-    <header>
-        <h1>HEADER-UNICODE</h1>
-        <h2>{{ $title}}</h2>
-    </header>
-    <main>
-        <h1>CONTENTS-UNICODE</h1>
-        <h2><?php echo $content ?></h2>
 
-    </main>
-    <header>
-        <h1>FOOTER-UNICODE</h1>
-    </header>
-</body>
-
-</html>
+@for($i =1; $i<=10; $i++)
+    
+    @if($i==5)
+        @continue
+    @endif
+    <p>Phần tử thứ: {{$i}}</p>
+@endfor
