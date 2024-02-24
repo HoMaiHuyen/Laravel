@@ -13,6 +13,14 @@
     @datetime('2024-12-15 17:54:40')
     @include('clients.contents.slide')
     @include('clients.contents.about')
+
+    @env('production')
+        <p>Production inviroment</p>
+    @elseenv('test')
+        <p>Not test inviroment</p>
+    @else
+        <p>Dev inviroment</p>
+    @endenv
 @endsection
 
 @section('css')
