@@ -53,6 +53,6 @@ use App\Http\Controllers\HomeController;
 //     Route::resource('products', ProductsController::class)->middleware('auth.admin.product');
 // });
 
-Route::get('/', [HomeController::class, 'index']);
-Route::get('/product', [HomeController::class, 'products']);
+Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/product', [HomeController::class, 'products'])->name('product');
 
