@@ -10,6 +10,7 @@
 
 @section('content')
     <h1>Product</h1>
+    <x-package-alert>Content</x-package-alert>
     @push('scripts')
         <script>
         console.log('Second time')
