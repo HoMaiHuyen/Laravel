@@ -3,23 +3,30 @@
    {{$title}}
 @endsection
 
-@section('sidebar')
+{{-- @section('sidebar')
 @parent
     <h3>Product Sidebar</h3>
-@endsection
+@endsection --}}
 
 @section('content')
     <h1>Product</h1>
+    @push('scripts')
+        <script>
+        console.log('Second time')
+    </script>
+    @endpush
 @endsection
 
 @section('css')
          
 @endsection
 
-{{-- @section('js')
+@section('js')
+    
+@endsection
+    
+@prepend('scripts')
     <script>
-        document.querySelector('.show').onclick = function(){
-        alert('Successful');
-    }
+        console.log('First time')
     </script>
-@endsection --}}
+@endprepend

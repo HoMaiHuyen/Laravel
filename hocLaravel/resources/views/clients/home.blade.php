@@ -10,9 +10,9 @@
 
 @section('content')
     <h1>Home Page</h1>
+    @datetime('2024-12-15 17:54:40')
     @include('clients.contents.slide')
     @include('clients.contents.about')
-
 @endsection
 
 @section('css')
@@ -20,6 +20,5 @@
 @endsection
 
 @section('js')
-    
 
 @endsection
