@@ -1,0 +1,1 @@
+<button type="button" class="btn btn-success">Register now</button>

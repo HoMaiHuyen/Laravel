@@ -21,6 +21,13 @@
     @else
         <p>Dev inviroment</p>
     @endenv
+
+    {{-- <x-alert type="success" /> --}}
+    
+    <x-alert type="info" :content="$message" data-icon="Youtube" />
+    {{-- <x-inputs.button />
+
+    <x-forms.button /> --}}
 @endsection
 
 @section('css')
