@@ -69,7 +69,7 @@ Route::put('/add product', [HomeController::class, 'putAdd']);
 //     // $response = new Response('Study develop at Unicode', 200);
 //     // dd($response);
 //     // return($response);
-   
+
 //     $response = (new Response())->cookie('unicode', 'Training PHP');
 //     return $response;
 // });
@@ -80,13 +80,23 @@ Route::put('/add product', [HomeController::class, 'putAdd']);
 
 // Route::get('get-information', [HomeController::class, 'getArr']);
 
-Route::get('demo-response', function (){
-    // return view('clients.demo-test');
-    $response = response()
-    ->view('clients.demo-test',[
-        'title'=>'Study HTTP Response'
-    ], 201)
-    ->header('Content-Type', 'application/json')
-    ->header('API-Key', 123);
-    return $response;
+Route::get('demo-response', function () {
+    // $contentArr = [
+    //     'name'=>'Unicode', 
+    //     'version'=>'Laravel 10.x',
+    //     'lesson'=>'HTTP Response Laravel'
+    // ];
+    // return response()->json($contentArr, 404)->header('API-Key', '1234');
+
+    // return '<h2>Welcome to Unicode</h2>';
+    echo old('username');
+    return view('clients.demo-test');
+})->name('demo-response');
+
+Route::post('demo-response', function (Request $request) {
+    if (!empty($request->username)) {
+        return back()->withInput()->with('message', 'Validate success');
+    }
+
+    return redirect(route('demo-response'))->with('message', 'Validate not success');
 });
