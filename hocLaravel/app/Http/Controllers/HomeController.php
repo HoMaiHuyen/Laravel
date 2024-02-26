@@ -33,5 +33,14 @@ class HomeController extends Controller
         // dd($request);
     }
 
-    
+
+
+    public function getArr(){
+        $contentArr = [
+            'name' => 'Laravel 10.x',
+            'lesson' => 'Study Laravel',
+            'academy' => 'Unicode academi',
+        ];
+        return $contentArr;
+    }  
 } 

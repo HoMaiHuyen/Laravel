@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HomeController;
+use Illuminate\Http\Response;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -62,3 +63,30 @@ Route::get('/add product', [HomeController::class, 'getAdd']);
 // Route::post('/add product', [HomeController::class, 'postAdd']);
 
 Route::put('/add product', [HomeController::class, 'putAdd']);
+
+
+// Route::get('demo-response', function () {
+//     // $response = new Response('Study develop at Unicode', 200);
+//     // dd($response);
+//     // return($response);
+   
+//     $response = (new Response())->cookie('unicode', 'Training PHP');
+//     return $response;
+// });
+
+// Route::get('demo-response2', function(Request $request){
+//     return $request->cookie('unicode');
+// });
+
+// Route::get('get-information', [HomeController::class, 'getArr']);
+
+Route::get('demo-response', function (){
+    // return view('clients.demo-test');
+    $response = response()
+    ->view('clients.demo-test',[
+        'title'=>'Study HTTP Response'
+    ], 201)
+    ->header('Content-Type', 'application/json')
+    ->header('API-Key', 123);
+    return $response;
+});
