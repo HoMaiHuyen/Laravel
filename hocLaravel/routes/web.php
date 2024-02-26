@@ -100,3 +100,6 @@ Route::post('demo-response', function (Request $request) {
 
     return redirect(route('demo-response'))->with('message', 'Validate not success');
 });
+
+
+Route::get('download-image', [HomeController::class, 'downloadImage'])->name('download-image');

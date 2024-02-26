@@ -28,10 +28,18 @@
     {{-- <x-inputs.button />
 
     <x-forms.button /> --}}
+
+    <p><img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSCpwaSil7uTHp_maqtzGVR4U0yNCs9BsZoug&usqp=CAU" alt="Cat"></p>
+    <p><a href="{{ route('download-image') . '?image=' . asset('storage/bao_dom.jpg') }}" class="btn btn-primary">Download</a></p>
 @endsection
 
 @section('css')
-    
+    <style>
+        img{
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
 @endsection
 
 @section('js')
