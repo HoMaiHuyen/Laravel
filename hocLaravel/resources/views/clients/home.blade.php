@@ -9,6 +9,11 @@
 @endsection
 
 @section('content')
+@if (session('msg'))
+    <div class="alert alert-{{session('type')}}">
+        {{session('msg')}}
+    </div>
+@endif
     <h1>Home Page</h1>
     @datetime('2024-12-15 17:54:40')
     @include('clients.contents.slide')

@@ -6,11 +6,14 @@
 @section('content')
     <h1>Add Product</h1>
     <form action="" method="POST">
-        @if ($errors->any())
+        @error('msg')
+            <div class="arlert alert-danger text-center">{{$message}}</div>
+        @enderror
+        {{-- @if ($errors->any())
             <div class="alert alert-danger text-center">
                 {{$errorMessage}}
             </div>
-        @endif
+        @endif --}}
         <div class="mb-3">
             <label for="">Product name</label>
             <input type="text" class="form-control" name="product_name" placeholder="Product name..." value="{{old('product_name')}}">
