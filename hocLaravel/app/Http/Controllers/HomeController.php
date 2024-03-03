@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use App\Http\Requests\ProductRequest;
+use Illuminate\Support\Facades\Validator;
 
 class HomeController extends Controller
 {
@@ -26,25 +27,44 @@ class HomeController extends Controller
         return view('clients.add', $this->data);
     }
 
-    public function postAdd(ProductRequest $request){
-        dd($request->all());
-        // $rules=[
-        //     'product_name' => 'required|min:6',
-        //     'product_price' => 'required|integer',
-        // ];
+    public function postAdd(Request $request){
+        $rules=[
+            'product_name' => 'required|min:6',
+            'product_price' => 'required|integer',
+        ];
 
-        // $message=[
+        // $message = [
         //     'product_name.required' => 'You must enter file :attribute',
         //     'product_name.min' => 'Product name can not least than :min characters',
         //     'product_price.min' => 'You must enter product price',
         //     'product_price.integer' => 'Price must be numbers',
         // ];
 
-        // $message = [
-        //     'required'=>':attribute must enter',
-        //     'min'=>':attribute can not least :min characters',
-        //     'integer'=>':attribute must numbers'
-        // ];
+        $attributes = [
+            'product_name' => 'product name',
+            'product_price' => 'product price',
+        ];
+
+        $message = [
+            'required' => ':attribute must enter',
+            'min' => ':attribute can not least :min characters',
+            'integer' => ':attribute must numbers'
+        ]; 
+
+
+        $validator= Validator::make($request->all(), $rules, $message);
+        // $validator->validate();
+        if ($validator->fails()){
+            $validator->errors()->add('msg', 'Check data please');
+            // return 'Validator fails';
+        }else{
+            // return 'Validate success';
+            return redirect()->route('product')->with('msg', 'Validate success');
+        }
+
+        return back()->withErrors($validator);
+
+        
         // $request->validate($rules, $message);
 
         //Xu li viec them du lieu
