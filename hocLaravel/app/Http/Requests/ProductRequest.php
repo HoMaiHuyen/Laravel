@@ -2,7 +2,10 @@
 
 namespace App\Http\Requests;
 
+use Illuminate\Auth\Access\AuthorizationException;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Auth\Access\HandlesAuthorization;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class ProductRequest extends FormRequest
 {
@@ -11,7 +14,7 @@ class ProductRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return true;
+        return false;
     }
 
     /**
@@ -43,5 +46,30 @@ class ProductRequest extends FormRequest
             'product_name'=>'Product name',
             'product_price'=>'Product price'
         ];
+    }
+
+    protected function withVallidator($validator){
+        $validator->after(function($validator){
+            // if ($this->somethingElseInvalid()) {
+            //     $validator->errors()->add('field', 'Something is wrong');
+            // }
+
+            if ($validator->errors()->count()>0){
+                $validator->errors()->add('field', 'Something is wrong');
+            };
+        });
+    }
+
+    protected function prepareForValidation(){
+        $this->merge([
+            'create_at'=>date('Y-m-d H:i:s'),
+        ]);
+    }
+
+    protected function failedAuthorization()
+    {
+        // throw new AuthorizationException('You do not have access');
+        // throw new HttpResponseException(redirect('/')->with('msg', 'You do not have access')->with('type', 'danger'));
+        throw new HttpResponseException(abort(404));
     }
 }
