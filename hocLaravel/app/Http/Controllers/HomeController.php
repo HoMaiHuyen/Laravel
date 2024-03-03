@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
+use App\Http\Requests\ProductRequest;
 
 class HomeController extends Controller
 {
@@ -25,11 +26,12 @@ class HomeController extends Controller
         return view('clients.add', $this->data);
     }
 
-    public function postAdd(Request $request){
-        $rules=[
-            'product_name' => 'required|min:6',
-            'product_price' => 'required|integer',
-        ];
+    public function postAdd(ProductRequest $request){
+        dd($request);
+        // $rules=[
+        //     'product_name' => 'required|min:6',
+        //     'product_price' => 'required|integer',
+        // ];
 
         // $message=[
         //     'product_name.required' => 'You must enter file :attribute',
@@ -38,12 +40,12 @@ class HomeController extends Controller
         //     'product_price.integer' => 'Price must be numbers',
         // ];
 
-        $message = [
-            'required'=>':attribute must enter',
-            'min'=>':attribute can not least :min characters',
-            'integer'=>':attribute must numbers'
-        ];
-        $request->validate($rules, $message);
+        // $message = [
+        //     'required'=>':attribute must enter',
+        //     'min'=>':attribute can not least :min characters',
+        //     'integer'=>':attribute must numbers'
+        // ];
+        // $request->validate($rules, $message);
 
         //Xu li viec them du lieu
     }
