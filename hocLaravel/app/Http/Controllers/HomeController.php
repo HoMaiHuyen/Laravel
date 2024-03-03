@@ -21,11 +21,31 @@ class HomeController extends Controller
 
     public function getAdd(){
         $this->data['title'] = 'Add Product';
+        $this->data['errorMessage'] = 'Check your data please';
         return view('clients.add', $this->data);
     }
 
     public function postAdd(Request $request){
-        dd($request);
+        $rules=[
+            'product_name' => 'required|min:6',
+            'product_price' => 'required|integer',
+        ];
+
+        // $message=[
+        //     'product_name.required' => 'You must enter file :attribute',
+        //     'product_name.min' => 'Product name can not least than :min characters',
+        //     'product_price.min' => 'You must enter product price',
+        //     'product_price.integer' => 'Price must be numbers',
+        // ];
+
+        $message = [
+            'required'=>':attribute must enter',
+            'min'=>':attribute can not least :min characters',
+            'integer'=>':attribute must numbers'
+        ];
+        $request->validate($rules, $message);
+
+        //Xu li viec them du lieu
     }
 
     public function putAdd(Request $request){
