@@ -9,6 +9,9 @@
 @endsection --}}
 
 @section('content')
+@if (session('msg'))
+    <div class="alert alert-success">{{session('msg')}}</div>
+@endif
     <h1>Product</h1>
     <x-package-alert>Content</x-package-alert>
     @push('scripts')
