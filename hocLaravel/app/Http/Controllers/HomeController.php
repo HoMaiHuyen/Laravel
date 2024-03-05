@@ -30,8 +30,9 @@ class HomeController extends Controller
 
     public function postAdd(Request $request){
         $rules=[
-            'product_name' => ['required', 'min:6', new Uppercase],
-            // 'product_price' => 'required|integer',
+            'product_name' => ['required', 'min:6',function($attribute, $value, $fail){
+                isUppercase($value,':attribute Invalide', $fail);
+            }],
             'product_price'=>['required', 'integer', new Uppercase],
         ];
 
@@ -100,6 +101,9 @@ class HomeController extends Controller
             //     $imageContent = file_get_contents($image);
             //     echo $imageContent;
             // }, 'image-1.jpg');
+            $headers = [
+                'Content-Type'=>'application/pdf'
+            ];
 
             return response()->download($image, $fileName);
         }
