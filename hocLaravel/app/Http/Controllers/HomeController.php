@@ -6,6 +6,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\View;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\Validator;
+use App\Rules\Uppercase;
 
 class HomeController extends Controller
 {
@@ -29,8 +30,9 @@ class HomeController extends Controller
 
     public function postAdd(Request $request){
         $rules=[
-            'product_name' => 'required|min:6',
-            'product_price' => 'required|integer',
+            'product_name' => ['required', 'min:6', new Uppercase],
+            // 'product_price' => 'required|integer',
+            'product_price'=>['required', 'integer', new Uppercase],
         ];
 
         // $message = [
@@ -48,7 +50,9 @@ class HomeController extends Controller
         $message = [
             'required' => ':attribute must enter',
             'min' => ':attribute can not least :min characters',
-            'integer' => ':attribute must numbers'
+            'integer' => ':attribute must numbers',
+            'uppercase'=>':attribute must Upperchracter
+            '
         ]; 
 
 
