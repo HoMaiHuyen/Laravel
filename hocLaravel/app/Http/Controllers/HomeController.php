@@ -28,12 +28,11 @@ class HomeController extends Controller
         return view('clients.add', $this->data);
     }
 
-    public function postAdd(Request $request){
+    public function postAdd(ProductRequest $request){
+        return 'OK';
         $rules=[
-            'product_name' => ['required', 'min:6',function($attribute, $value, $fail){
-                isUppercase($value,':attribute Invalide', $fail);
-            }],
-            'product_price'=>['required', 'integer', new Uppercase],
+            'product_name' => ['required', 'min:6'],
+            'product_price'=>['required', 'integer'],
         ];
 
         // $message = [
@@ -52,22 +51,25 @@ class HomeController extends Controller
             'required' => ':attribute must enter',
             'min' => ':attribute can not least :min characters',
             'integer' => ':attribute must numbers',
-            'uppercase'=>':attribute must Upperchracter
-            '
+            // 'uppercase'=>':attribute must Upperchracter
         ]; 
 
 
-        $validator= Validator::make($request->all(), $rules, $message);
+        // $validator= Validator::make($request->all(), $rules, $message);
         // $validator->validate();
-        if ($validator->fails()){
-            $validator->errors()->add('msg', 'Check data please');
-            // return 'Validator fails';
-        }else{
-            // return 'Validate success';
-            return redirect()->route('product')->with('msg', 'Validate success');
-        }
 
-        return back()->withErrors($validator);
+        $request->validate($rules, $message);
+        return response()->json(['status'=>'success']);
+        // $validator->validate();
+        // if ($validator->fails()){
+        //     $validator->errors()->add('msg', 'Check data please');
+        //     // return 'Validator fails';
+        // }else{
+        //     // return 'Validate success';
+        //     return redirect()->route('product')->with('msg', 'Validate success');
+        // }
+
+        // return back()->withErrors($validator);
 
         
         // $request->validate($rules, $message);
