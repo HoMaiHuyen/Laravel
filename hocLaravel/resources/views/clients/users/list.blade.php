@@ -8,6 +8,8 @@
     <div class="alert alert-success">{{session('msg')}}</div>
 @endif
     <h1>{{$title}}</h1>
+    <a href="{{route('users.add')}}" class="btn btn-primary">Add user</a>
+    <hr />
     <table class="table table-bordered">
         <thead>
             
@@ -19,8 +21,8 @@
             </tr>
         </thead>
         <tbody>
-            @if (!empty($users))
-            @foreach ($users as $key => $item)
+            @if (!empty($usersList))
+            @foreach ($usersList as $key => $item)
             <tr>
                 <td>{{$key+1}}</td>
                 <td>{{$item->fullname}}</td>
