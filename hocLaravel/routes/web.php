@@ -6,6 +6,7 @@ use App\Http\Controllers\CategoriesController;
 use App\Http\Controllers\Admin\ProductsController;
 use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HomeController;
+use App\Http\Controllers\UsersController;
 use Illuminate\Http\Response;
 /*
 |--------------------------------------------------------------------------
@@ -103,3 +104,10 @@ Route::post('demo-response', function (Request $request) {
 
 
 Route::get('download-image', [HomeController::class, 'downloadImage'])->name('download-image');
+
+Route::get('download-doc', [HomeController::class, 'downloadDoc'])->name('download-doc');
+
+Route::prefix('users')->group(function () {
+    Route::get('/', [UsersController::class, 'index']);
+});
+
