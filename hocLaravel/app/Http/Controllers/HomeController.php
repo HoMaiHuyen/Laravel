@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\View;
 use App\Http\Requests\ProductRequest;
 use Illuminate\Support\Facades\Validator;
 use App\Rules\Uppercase;
+use Illuminate\Support\Facades\DB;
 
 class HomeController extends Controller
 {
@@ -14,6 +15,10 @@ class HomeController extends Controller
     public function index(){
         $this->data['title'] = 'Home Page';
         $this->data['message'] = 'Register Success';
+        // $users = DB::select('select * from users Where email=:email', [
+        //     'email'=>'huyen.homai@gmail.com'
+        // ]);
+        // dd($users);
         return view('clients.home', $this->data);
     }
 

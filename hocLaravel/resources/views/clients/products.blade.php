@@ -13,7 +13,7 @@
     <div class="alert alert-success">{{session('msg')}}</div>
 @endif
     <h1>Product</h1>
-    <x-package-alert>Content</x-package-alert>
+    <p>Content</p>
     @push('scripts')
         <script>
         console.log('Second time')
