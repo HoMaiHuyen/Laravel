@@ -39,4 +39,31 @@ class Users extends Model
     public function statementUser($sql){
         return DB::statement($sql);
     }
+
+    public function learQueryBuilder(){
+        //Lay tat ca ban ghi cua table
+        $lists = DB::table($this->table)
+        ->select('fullname as hoten', 'email', 'id')
+        // ->where('id', 19)
+        // ->where('id', '>', 18)
+        // ->where('id', '<>', 1)
+        // ->where('id', '>=',1)
+        // ->where('id', '<=', 20)
+
+        // ->where([
+        //     [
+        //         'id', '>=', 1
+        //     ],
+        //     [
+        //         'id', '<=',3
+        //     ]
+        // ])
+
+        ->where('id', 1)
+        ->orWhere('id', 3)
+        ->get();
+        dd($lists);
+        //Lay ban ghi dau tien cua table (Lay thong tin chi tiet)
+        $detail = DB::table($this->table)->first();
+    }
 }

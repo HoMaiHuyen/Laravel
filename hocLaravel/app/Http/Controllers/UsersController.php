@@ -19,9 +19,11 @@ class UsersController extends Controller
     public function index()
     {
         $statement = $this->users->statementUser("SELECT * FROM users");
-        dd($statement);
+
         $title = 'List of user';
 
+        $data = $this->users->learQueryBuilder();
+        
         $users = new Users();
         $usersList = $this->users->getAllUsers();
 
