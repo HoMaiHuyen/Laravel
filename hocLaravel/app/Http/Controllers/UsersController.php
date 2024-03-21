@@ -18,6 +18,8 @@ class UsersController extends Controller
     }
     public function index()
     {
+        $statement = $this->users->statementUser("SELECT * FROM users");
+        dd($statement);
         $title = 'List of user';
 
         $users = new Users();
@@ -97,5 +99,24 @@ class UsersController extends Controller
         $user->updated_at = date('Y-m-d H:i:s');
         $user->save();
         return back()->with('success', 'Update successful');
+    }
+
+    public function delete($id){
+        if (!empty($id)) {
+            $userDetail = $this->users->getDetail($id);
+            if (!empty($userDetail[0])) {
+                $deleteStatus=$this->users->deleteUser($id);
+                if($deleteStatus){
+                    $msg = 'Delete user successful';
+                }else{
+                    $msg = "You can not delete user now. Try later please";
+                }
+            } else {
+                $msg = 'User does not exist';
+            }
+        } else {
+            $msg = 'Link does not exist';
+        }
+        return redirect()->route('users.index')->with('msg', $msg);
     }
 }
