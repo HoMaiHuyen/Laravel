@@ -17,7 +17,9 @@
                 <th width="5%">STT</th>
                 <th>Name</th>
                 <th>Email</th>
-                <th width = "10%">Time</th>
+                <th width = "15%">Time</th>
+                <th width="5%">Update</th>
+                <th width="5%">Delete</th>
             </tr>
         </thead>
         <tbody>
@@ -28,11 +30,17 @@
                 <td>{{$item->fullname}}</td>
                 <td>{{$item->email}}</td>
                 <td>{{$item->created_at}}</td>
+                <td>
+                    <a href="{{ route('users.edit', ['id' => $item->id]) }}" class="btn btn-warning btn-sm">Update</a>
+                </td>
+                <td>
+                    <a href="" class="btn btn-danger btn-sm">Delete</a>
+                </td>
             </tr>
             @endforeach
             @else
             <tr>
-                <td colspan="4">No user</td>
+                <td colspan="6">No user</td>
             </tr>
             @endif
         </tbody>

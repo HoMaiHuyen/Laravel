@@ -109,10 +109,9 @@ Route::get('download-doc', [HomeController::class, 'downloadDoc'])->name('downlo
 
 Route::prefix('users')->name('users.')->group(function () {
     Route::get('/', [UsersController::class, 'index'])->name('index');
-
     Route::get('/add', [UsersController::class, 'add'])->name('add');
-
+    Route::get('/edit/{id}', [UsersController::class, 'getEdit'])->name('edit');
+    Route::post('/edit/{id}', [UsersController::class, 'postEdit'])->name('post-edit');
     Route::post('/add', [UsersController::class, 'postAdd'])->name('postAdd');
-
 });
 
