@@ -41,28 +41,27 @@ class Users extends Model
     }
 
     public function learQueryBuilder(){
+        DB::enableQueryLog();
         //Lay tat ca ban ghi cua table
+        $id = 20;
         $lists = DB::table($this->table)
-        ->select('fullname as hoten', 'email', 'id')
-        // ->where('id', 19)
-        // ->where('id', '>', 18)
-        // ->where('id', '<>', 1)
-        // ->where('id', '>=',1)
-        // ->where('id', '<=', 20)
-
-        // ->where([
-        //     [
-        //         'id', '>=', 1
-        //     ],
-        //     [
-        //         'id', '<=',3
-        //     ]
-        // ])
-
-        ->where('id', 1)
-        ->orWhere('id', 3)
+        ->select('fullname as hoten', 'email', 'id', 'updated_at')
+            // ->where('id', 19)
+            // ->where('id', 1)
+            // ->where(function($query) use ($id){
+            //     $query->where('id', '<', $id)->orwhere('id', '>', $id);
+            // })
+            // ->where('fullname', 'like', 'huế')
+            // ->whereNotBetween('id', [1,3])
+            // ->whereIn('id', [18,20])
+            // ->whereNotIn('id', [18,20])
+            // ->whereNull('updated_at')
+            ->whereNotNull('updated_at')
         ->get();
+        // ->toSql();
         dd($lists);
+        $sql = DB::getQueryLog();
+        dd($sql);
         //Lay ban ghi dau tien cua table (Lay thong tin chi tiet)
         $detail = DB::table($this->table)->first();
     }
