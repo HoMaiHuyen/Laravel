@@ -43,23 +43,29 @@ class Users extends Model
     public function learQueryBuilder(){
         DB::enableQueryLog();
         //Lay tat ca ban ghi cua table
-        $id = 20;
-        $lists = DB::table($this->table)
-        ->select('fullname as hoten', 'email', 'id', 'updated_at')
-            // ->where('id', 19)
-            // ->where('id', 1)
-            // ->where(function($query) use ($id){
-            //     $query->where('id', '<', $id)->orwhere('id', '>', $id);
-            // })
-            // ->where('fullname', 'like', 'huế')
-            // ->whereNotBetween('id', [1,3])
-            // ->whereIn('id', [18,20])
-            // ->whereNotIn('id', [18,20])
-            // ->whereNull('updated_at')
-            ->whereNotNull('updated_at')
-        ->get();
+        // $id = 20;
+        // $lists = DB::table($this->table)
+        // ->select('fullname as hoten', 'email', 'id', 'updated_at', 'created_at')
+        // ->whereDate('updated_at', '2022-01-21 20:00:00')
+        // ->whereMonth('created_at', '3')
+        // ->whereMonth('created_at', '18')
+        // ->whereYear('created_at', '2024')
+        // ->whereColumn('created_at', '=', 'updated_at')
+        // ->get();
         // ->toSql();
-        dd($lists);
+        // dd($lists);
+
+        // $list = DB:: table('users')
+        // ->select('users.*', 'groupps.name as group_name')
+        // ->leftJoin('groupps', 'users.group_id', '=', 'groupps.id')
+        // ->get();
+
+        $list = DB::table('users')
+        ->select('users.*', 'groupps.name as group_name')
+        ->rightJoin('groupps', 'users.group_id', '=', 'groupps.id')
+        ->get();
+
+        dd($list);
         $sql = DB::getQueryLog();
         dd($sql);
         //Lay ban ghi dau tien cua table (Lay thong tin chi tiet)
