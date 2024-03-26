@@ -61,9 +61,25 @@ class Users extends Model
         // ->get();
 
         $list = DB::table('users')
-        ->select('users.*', 'groupps.name as group_name')
-        ->rightJoin('groupps', 'users.group_id', '=', 'groupps.id')
-        ->get();
+            // ->select('users.*', 'groupps.name as group_name')
+            // ->rightJoin('groupps', 'users.group_id', '=', 'groupps.id')
+            // ->orderBy('id', 'desc')
+            // ->orderBy('created_at', 'desc')
+            // ->orderBy('created_at', 'asc')
+            // ->orderBy('id', 'desc')
+            // ->inRandomOrder()
+
+            // ->select(DB::raw('count(id) as email_count'), 'email', 'fullname')
+            // ->groupBy('email')
+            // ->groupBy('fullname')
+            // ->having('email_count', '>=', 2)
+            // ->limit(2)
+            // ->offset(0)
+            ->take(2)
+            ->skip(2)
+            ->get();
+
+        // return ($list);
 
         dd($list);
         $sql = DB::getQueryLog();
