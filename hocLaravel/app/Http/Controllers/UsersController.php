@@ -50,9 +50,27 @@ class UsersController extends Controller
             $filters[] = $request->keywords;
         }
 
-        $usersList = $this->users->getAllUsers($filters, $keywords);
+        //Xử lí logic
+        $sortBy = $request->input('sort-by');
+        $sortType = $request->input('sort-type');
+        $allowSort = ['asc', 'desc'];
+        if(!empty($sortType)&& in_array($sortType, $allowSort)){
+            if ($sortType == 'desc') {
+                $sortType = 'asc';
+            } else {
+                $sortType = 'desc';
+            }
+        }else{
+            $sortType = 'asc';
+        }
+        $sortArr = [
+            'sortBy'=> $sortBy,
+            'sortType'=> $sortType,
+        ];
+        
+        $usersList = $this->users->getAllUsers($filters, $keywords, $sortArr);
 
-        return view('clients.users.list', compact('title', 'usersList'));
+        return view('clients.users.list', compact('title', 'usersList', 'sortType'));
     }
 
     public function add()
