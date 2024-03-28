@@ -10,13 +10,23 @@ class Users extends Model
 {
     use HasFactory;
     protected $table = 'users';
-    public function getAllUsers($filters = [], $keywords=null){
+    public function getAllUsers($filters = [], $keywords=null, $sortBy = null){
         DB::enableQueryLog();
         // $users = DB::select('SELECT * FROM users ORDER BY created_at DESC');
         $users = DB::table($this->table)
         ->select('users.*', 'groupps.name as group_name')
-        ->join('groupps', 'users.group_id', '=', 'groupps.id')
-        ->orderBy('users.created_at', 'DESC');
+        ->join('groupps', 'users.group_id', '=', 'groupps.id');
+
+        $orderBy = 'users.created_at';
+        $orderType = 'desc';
+        if(!empty($sortByArr)&& is_array($sortByArr)){
+            if (!empty($sortByArr['sortBy'])&& !empty($sortByArr['sortType'])){
+                $orderBy = trim($sortByArr['sortBy']);
+                $orderType = trim($sortByArr['sortType']);
+            }
+        }
+        $users = $users->orderBy($orderBy, $orderType);
+        
 
         if(!empty($filters)){
             $users = $users->when(count($filters) > 0, function ($query) use ($filters) {
