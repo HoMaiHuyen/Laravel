@@ -10,9 +10,37 @@ class Users extends Model
 {
     use HasFactory;
     protected $table = 'users';
-    public function getAllUsers(){
-        $users = DB::select('SELECT * FROM users ORDER BY created_at DESC');
+    public function getAllUsers($filters = [], $keywords=null){
+        DB::enableQueryLog();
+        // $users = DB::select('SELECT * FROM users ORDER BY created_at DESC');
+        $users = DB::table($this->table)
+        ->select('users.*', 'groupps.name as group_name')
+        ->join('groupps', 'users.group_id', '=', 'groupps.id')
+        ->orderBy('users.created_at', 'DESC');
+
+        if(!empty($filters)){
+            $users = $users->when(count($filters) > 0, function ($query) use ($filters) {
+                foreach ($filters as $filter) {
+                    $query->where($filter[0], $filter[1], $filter[2]);
+                }
+            });
+
+        }
+
+        if (!empty($keywords)) {
+            $users = $users->where(function ($query) use ($keywords) {
+                foreach ($keywords as $keyword) {
+                    $query->orWhere('fullname', 'like', '%' . $keyword . '%');
+                    $query->orWhere('email', 'like', '%' . $keyword . '%');
+                }
+            });
+        }
+
+        $users = $users->get();
+
         return $users;
+
+
     }
 
     public function addUser($data)
@@ -44,7 +72,7 @@ class Users extends Model
 
 
         // return ($list);
-
+        DB::enableQueryLog();
         // $status = DB::table('users')->insert([
         //     'fullname' => 'Hồ Mai Huyền',
         //     'email' => 'huyen@gmail.com',
@@ -86,38 +114,14 @@ class Users extends Model
         // $count = count($list);
         // dd($count);
 
-        DB:: table('users')
-        // ->select(
-        //     // DB::raw('count(id) as email_count')
-        //     // DB::raw("'fullname' as hoten 'email'")
-            
-        // )
-        // ->selectRaw('email, fullname, count(id)')
-        // ->groupBy('email')
-        // ->groupBy('fullname')
-        // ->where(DB::raw('id>20'))
-        // ->where('id > ?', [20])
-        // ->whereRaw('id>20')
-        // ->orwhereRaw('id>20')
-        // ->orderByRaw('created_at DESC, updated_at ASC')
-        // ->groupByRaw('email, fullname')
-        // ->havingRaw('email_count', '>=', 2)
-        // ->where('group_id', '=', DB::raw(
-        //     'group_id',
-        //     '=',
-        //     function($query){
-        //         $query->select('id')
-        //         ->from('groupps')
-        //         ->where('name', '=', 'Admin');
-        //     })
-        //     )
-        ->select('email', DB::raw('(SELECT count(id) FROM "groupps") as group_cpunt'))
-        ->get();
+        $results = DB::table('users')
+            ->select('email', DB::raw('(SELECT count(id) FROM groupps) as group_count'))
+            ->get();
+
         $sql = DB::getQueryLog();
         dd($sql);
-        //Lay ban ghi dau tien cua table (Lay thong tin chi tiet)
+        
+
         $detail = DB::table($this->table)->first();
-    }
-
-
+        }
 }
