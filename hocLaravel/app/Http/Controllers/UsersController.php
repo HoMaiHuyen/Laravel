@@ -16,16 +16,41 @@ class UsersController extends Controller
     {
         $this->users = new Users();
     }
-    public function index()
+    public function index(Request $request)
     {
-        $statement = $this->users->statementUser("SELECT * FROM users");
+        // $statement = $this->users->statementUser("SELECT * FROM users");
 
         $title = 'List of user';
 
-        $data = $this->users->learQueryBuilder();
-        
-        $users = new Users();
-        $usersList = $this->users->getAllUsers();
+        // $data = $this->users->learQueryBuilder();
+
+        // $users = new Users();
+
+        $filters = [];
+        $keywords = null;
+        if (!empty($request->status)) {
+            $status = $request->status;
+            if ($status == 'active') {
+                $status = 1;
+            } else {
+                $status = 0;
+            }
+            $filters[] = ['users.status', '=', $status];
+        }
+
+        if (!empty($request->group_id)) {
+            $groupID = $request->group_id;
+            
+            $filters[] = ['users.group_id', '=', $groupID];
+        }
+
+        if (!empty($request->keywords)) {
+            $keywords= $request->keywords;
+
+            $filters[] = $request->keywords;
+        }
+
+        $usersList = $this->users->getAllUsers($filters, $keywords);
 
         return view('clients.users.list', compact('title', 'usersList'));
     }
@@ -103,14 +128,15 @@ class UsersController extends Controller
         return back()->with('success', 'Update successful');
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
         if (!empty($id)) {
             $userDetail = $this->users->getDetail($id);
             if (!empty($userDetail[0])) {
-                $deleteStatus=$this->users->deleteUser($id);
-                if($deleteStatus){
+                $deleteStatus = $this->users->deleteUser($id);
+                if ($deleteStatus) {
                     $msg = 'Delete user successful';
-                }else{
+                } else {
                     $msg = "You can not delete user now. Try later please";
                 }
             } else {
