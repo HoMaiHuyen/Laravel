@@ -76,7 +76,10 @@ class UsersController extends Controller
     public function add()
     {
         $title = 'Add users';
-        return view('clients.users.add', compact('title'));
+
+        $allGroups = getAllGroups();
+
+        return view('clients.users.add', compact('title', 'allGroups'));
     }
 
     public function postAdd(Request $request)
@@ -87,18 +90,30 @@ class UsersController extends Controller
         // }
         $request->validate([
             'fullname' => 'required|min:5',
-            'email' => 'required|email'
+            'email' => 'required|email',
+            'group_id'=>['required','integer', function($attribute, $value, $fail){
+                if($value==0){
+                    $fail('You must choose group');
+                }
+            }],
+            'status'=>'required|integer'
         ], [
             'fullname.required' => 'Full name is require',
             'fullname.min' => 'Fullname at least :min characters',
             'email.required' => 'Email is required',
             'email.email' => 'Email invalid format',
-            'email.unique' => 'Email already exits'
+            'email.unique' => 'Email already exits',
+            'group_id.required'=> 'Group can not be null',
+            'group_id.integer'=>'Invalid group',
+            'status.required'=>'Can not be null',
+            'status.integer' => 'invalid status'
         ]);
         $dataInssert = [
-            $request->fullname,
-            $request->email,
-            date('Y-m-d H:i:s')
+            'fullname'=>$request->fullname,
+            'email' => $request->email,
+            'group_id' => $request->group_id,
+            'status' => $request->status,
+            'created_at'=>date('Y-m-d H:i:s')
         ];
         $this->users->addUser($dataInssert);
         return redirect()->route('users.index')->with('msg', 'Add user successful');
