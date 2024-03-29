@@ -15,8 +15,8 @@ class Users extends Model
         // $users = DB::select('SELECT * FROM users ORDER BY created_at DESC');
         $users = DB::table($this->table)
         ->select('users.*', 'groupps.name as group_name')
-        ->join('groupps', 'users.group_id', '=', 'groupps.id');
-
+        ->join('groupps', 'users.group_id', '=', 'groupps.id')
+        ->where('trash', 0);
         $orderBy = 'users.created_at';
         $orderType = 'desc';
         if(!empty($sortByArr)&& is_array($sortByArr)){
@@ -78,7 +78,8 @@ class Users extends Model
 
     public function deleteUser($id)
     {
-        return DB::delete("DELETE FROM $this->table WHERE id=?", [$id]);
+        // return DB::delete("DELETE FROM $this->table WHERE id=?", [$id]);
+        return DB::table($this->table)->where('id', $id)->delete();
     }
 
     public function statementUser($sql){
