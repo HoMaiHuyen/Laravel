@@ -7,6 +7,7 @@ use DB;
 use App\Models\Users;
 use App\Models\User;
 use Illuminate\Support\Facades\Session;
+use App\Http\Requests\UsersRequest;
 
 class UsersController extends Controller
 {
@@ -82,32 +83,9 @@ class UsersController extends Controller
         return view('clients.users.add', compact('title', 'allGroups'));
     }
 
-    public function postAdd(Request $request)
+    public function postAdd(UsersRequest $request)
     {
-        // $id = session('id');
-        // if (empty($id)) {
-        //     return back()->with('msg', 'Link not exits');
-        // }
-        $request->validate([
-            'fullname' => 'required|min:5',
-            'email' => 'required|email',
-            'group_id'=>['required','integer', function($attribute, $value, $fail){
-                if($value==0){
-                    $fail('You must choose group');
-                }
-            }],
-            'status'=>'required|integer'
-        ], [
-            'fullname.required' => 'Full name is require',
-            'fullname.min' => 'Fullname at least :min characters',
-            'email.required' => 'Email is required',
-            'email.email' => 'Email invalid format',
-            'email.unique' => 'Email already exits',
-            'group_id.required'=> 'Group can not be null',
-            'group_id.integer'=>'Invalid group',
-            'status.required'=>'Can not be null',
-            'status.integer' => 'invalid status'
-        ]);
+        
         $dataInssert = [
             'fullname'=>$request->fullname,
             'email' => $request->email,
@@ -134,30 +112,25 @@ class UsersController extends Controller
         } else {
             return redirect()->route('users.index')->with('msg', 'Link does not exist');
         }
-
-        return view('clients.users.edit', compact('title', 'userDetail'));
+        $allGroups = getAllGroups();
+        return view('clients.users.edit', compact('title', 'userDetail', 'allGroups'));
     }
 
-    public function postEdit(Request $request)
+    public function postEdit(UsersRequest $request)
     {
         $id = session('id');
+        if(empty($id)){
+            return back()->with('msg', 'Link not exits');
+        }
 
-        $request->validate([
-            'fullname' => 'required|min:5',
-            'email' => 'required|email|unique:users,email,' . $id
-        ], [
-            'fullname.required' => 'Họ và tên là bắt buộc',
-            'fullname.min' => 'Họ và tên phải có ít nhất :min ký tự',
-            'email.required' => 'Email là bắt buộc',
-            'email.email' => 'Định dạng email không hợp lệ',
-            'email.unique' => 'Email đã tồn tại trong hệ thống'
-        ]);
-
-        $user = User::find($id);
-        $user->fullname = $request->fullname;
-        $user->email = $request->email;
-        $user->updated_at = date('Y-m-d H:i:s');
-        $user->save();
+        $dataUpdate = [
+            'fullname' => $request->fullname,
+            'email' => $request->email,
+            'group_id' => $request->group_id,
+            'status' => $request->status,
+            'updated_at' => date('Y-m-d H:i:s')
+        ];
+        $this->users->updateUser($dataUpdate, $id);
         return back()->with('success', 'Update successful');
     }
 
