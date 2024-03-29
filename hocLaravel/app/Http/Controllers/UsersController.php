@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Session;
 class UsersController extends Controller
 {
     private $users;
-
+    const _PER_PAGE = 3;
     public function __construct()
     {
         $this->users = new Users();
@@ -68,7 +68,7 @@ class UsersController extends Controller
             'sortType'=> $sortType,
         ];
         
-        $usersList = $this->users->getAllUsers($filters, $keywords, $sortArr);
+        $usersList = $this->users->getAllUsers($filters, $keywords, $sortArr, self::_PER_PAGE);
 
         return view('clients.users.list', compact('title', 'usersList', 'sortType'));
     }
@@ -81,10 +81,10 @@ class UsersController extends Controller
 
     public function postAdd(Request $request)
     {
-        $id = session('id');
-        if (empty($id)) {
-            return back()->with('msg', 'Link not exits');
-        }
+        // $id = session('id');
+        // if (empty($id)) {
+        //     return back()->with('msg', 'Link not exits');
+        // }
         $request->validate([
             'fullname' => 'required|min:5',
             'email' => 'required|email'
