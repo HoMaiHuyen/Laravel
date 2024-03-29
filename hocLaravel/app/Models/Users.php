@@ -53,7 +53,6 @@ class Users extends Model
             $users = $users->get();
         }
         
-
         return $users;
 
 
@@ -61,7 +60,8 @@ class Users extends Model
 
     public function addUser($data)
     {
-        DB::insert('INSERT INTO users (fullname, email, created_at) VALUES (?, ?, ?)', $data);
+        // DB::insert('INSERT INTO users (fullname, email, created_at) VALUES (?, ?, ?)', $data);
+        return DB::table($this->table)->insert($data);
     }
 
     public function getDetail($id){
