@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\UsersController;
 use Illuminate\Http\Response;
+use App\Http\Controllers\PostController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -114,5 +115,9 @@ Route::prefix('users')->name('users.')->group(function () {
     Route::post('/edit/{id}', [UsersController::class, 'postEdit'])->name('post-edit');
     Route::post('/add', [UsersController::class, 'postAdd'])->name('postAdd');
     Route::get('/delete/{id}', [UsersController::class, 'delete'])->name('delete');
+});
+
+Route::prefix('posts')->name('posts.')->group(function () {
+    Route::get('/', [PostController::class, 'index'])->name('index');
 });
 
